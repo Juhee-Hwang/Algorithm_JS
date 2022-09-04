@@ -27,6 +27,6 @@ while (index != -1) {
 if (searchResult.length > 1) {
   console.log ('?');
 } else {
-  // 그렇지 않다면 알파벳의 인덱스 값에 65를 더해주어 아스키코드 -> 문자로 변환하여 출력
+  // 그렇지 않다면 알파벳의 인덱스 값에 65를 더해주어 아스키코드 -> 알파벳 대문자로 변환하여 출력s
   console.log(String.fromCharCode(parseInt([...searchResult])+65));
 }

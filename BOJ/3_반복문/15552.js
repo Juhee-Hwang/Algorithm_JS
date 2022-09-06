@@ -8,4 +8,5 @@ for (let i=1; i<=test; i++){
   result += Number(numbers[0])+Number(numbers[1]) + "\n";
 }
 
+// 출력을 for문에서 해주지 말고 개행문자를 넣으면 시간초과가 안뜬다!
 console.log(result);

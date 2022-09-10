@@ -1,14 +1,4 @@
 function solution(n)
 {   
-    n = n.toString().split('');
-    let answer = 0;
-
-    for (let i = 0; i < n.length; i++){
-        answer += Number(n[i]);
-    }
-    
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    console.log(answer)
-
-    return answer;
+    return (n+"").split("").reduce((acc, curr) => acc + parseInt(curr), 0)
 }

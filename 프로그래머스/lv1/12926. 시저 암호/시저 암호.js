@@ -10,15 +10,6 @@ function solution(s, n) {
         answer.push(input[i].toUpperCase().charCodeAt() + n > 90 ? String.fromCharCode(ascii+n-26) : String.fromCharCode(ascii+n));
         }
     }
-
     return answer.join('');
-    
-   // return s.split('').map((el)=> {
-   //      if (el === ' '){
-   //          return ' ';
-   //      }
-   //      let ascii = el.charCodeAt();
-   //      return el.toUpperCase().charCodeAt() + n > 90 ? String.fromCharCode(ascii+n-26) : String.fromCharCode(ascii+n)
-   //  }).join('');
 }
 

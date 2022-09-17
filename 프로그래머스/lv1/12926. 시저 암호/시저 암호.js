@@ -1,7 +1,6 @@
 function solution(s, n) {
     let answer = [];
     let input = s.split('');
-    //A~Z 65~90, a~z 97~122
     for(let i = 0; i < input.length; i++) {
       if (input[i]===' '){
         answer.push(' ');

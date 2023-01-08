@@ -1,7 +1,8 @@
-let input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
+let [n,numbers] = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let n = parseInt(input[0]);
-let numbers = input[1].split('').map(Number);
+// 입력값 숫자 배열로 변환
+numbers = numbers.split('').map(Number);
 
-
-console.log(numbers.reduce((a,b) =>a+b,0));
+// reduce를 사용하여 배열 요소의 합 도출
+const result = numbers.reduce((a,b) => a + b, 0)
+console.log(result);

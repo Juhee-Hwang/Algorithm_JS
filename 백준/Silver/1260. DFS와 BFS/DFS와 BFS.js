@@ -1,51 +1,70 @@
-const input = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-const [N,M,V] = input[0].split(' ').map((x)=>+x);
-let graph = new Array(N+1);
-for (let i = 0; i < graph.length; i++){
-  graph[i] = [];
-}
-for (let j = 0; j < M; j++){
-  let [from,to] = input[j+1].split(' ').map(Number);
-  graph[from].push(to);
-  graph[to].push(from);
-}
+const sol = (input) => {
+  const [[N, M, V], ...relation] = input;
 
-graph.forEach((element) => {
-  element.sort((a,b)=>a-b);
-});
+  const graph = Array.from(Array(N + 1), () => Array());
 
-const DFS = (graph, startNode) => {
-  const visited = [];
-  let needVisit = []; 
+  const DFS_visited = Array.from({ length: N + 1 }, () => 0);
+  const DFS_stack = [];
 
-  needVisit.push(startNode); 
+  const BFS_visited = Array.from({ length: N + 1 }, () => 0);
+  const BFS_queue = [];
 
-  while (needVisit.length !== 0) {
-    const node = needVisit.shift();
-    if (!visited.includes(node)) {
-      visited.push(node); 
-      needVisit = [...graph[node], ...needVisit];
+  // 인접 리스트 생성 및 오름차순 정렬
+  for ([a, b] of relation) {
+    graph[a].push(b);
+    graph[b].push(a);
+  }
+  graph.forEach((vertex) => vertex.sort((a, b) => a - b));
+
+  const DFS = (v) => {
+    DFS_visited[v] = 1;
+    DFS_stack.push(v);
+
+    for (let i = 0; i < graph[v].length; i++) {
+      if (DFS_visited[graph[v][i]] === 0) {
+        DFS(graph[v][i]);
+      }
     }
-  }
-  return visited;
+  };
+
+  const BFS = (v) => {
+    BFS_visited[v] = 1;
+
+    let queue = [];
+    queue.push(v);
+
+    while (queue.length) {
+      let v = queue.shift();
+      BFS_queue.push(v);
+
+      graph[v].forEach((v) => {
+        if (BFS_visited[v] === 0) {
+          BFS_visited[v] = 1;
+          queue.push(v);
+        }
+      });
+    }
+  };
+
+  DFS(V);
+  BFS(V);
+  console.log(DFS_stack.join(" "));
+  console.log(BFS_queue.join(" "));
 };
 
-const BFS = (graph, startNode) => {
-  const visited = [];
-  let needVisit = [];
+const input = [];
 
-  needVisit.push(startNode);
+const lineHandler = (line) => {
+  input.push(line.split(" ").map((v) => +v));
 
-  while (needVisit.length !== 0) { 
-    const node = needVisit.shift() 
-    if (!visited.includes(node)) {
-      visited.push(node); 
-      needVisit = [...needVisit, ...graph[node]];
-    } 
+  if (input.length > input[0][1]) {
+    sol(input);
+    process.exit();
   }
-  return visited;
 };
-
-
-console.log(DFS(graph,V).join(" "));
-console.log(BFS(graph,V).join(" "));
+require("readline")
+  .createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  })
+  .on("line", lineHandler);

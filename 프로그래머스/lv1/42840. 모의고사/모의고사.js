@@ -32,7 +32,7 @@ function solution(answers) { //받아오라 문제 정답!
         }
     }
     
-    let max_score = Math.max(...score) //전개연산자를 넣어라.. 이유가 뭘까..?
+    let max_score = Math.max(...score)
     // 특정 값이 있는 모든 위치(index)찾는 반복문!
     let fromIndex = score.indexOf(max_score);  //가장 높은 점수를 가진 첫번째 인덱스
     while(fromIndex != -1) { 

@@ -1,57 +1,50 @@
-//실행 단축키 ctrl + alt(option) _n
+const { count } = require("console");
+const { get } = require("http");
 
-const { count } = require('console');
-const { get } = require('http');
+// CommonJS Modules FS
+// 제출할 때는 example.txt -> /dev/stdin 로 변경할 것!
+// 1. 하나의 값을 입력받을 때
+// const input = require("fs").readFileSync("example.txt").toString().trim();
 
-// const { func, element } = require('prop-types');
+// 2. 공백으로 구분된 한 줄의 값들을 입력받을 때
+// const input = require("fs").readFileSync("example.txt").toString().trim().split(" ");
 
-// 한 줄에 공백으로 값이 들어올 때 -> 공백으로 split한 문자들이 array 형태로 들어온다. parseInt로 하나하나 분리한다.
-// var input = require('fs').readFileSync('/dev/stdin').toString().split(' ');
+// 3. 여러 줄의 값들을 입력받을 때
+// const input = require("fs").readFileSync("example.txt").toString().trim().split("\n");
 
-// 한 줄에 하나씩 값이 들어올 때 -> 개행문자'\n'로 split한다.
-// var input = require('fs').readFileSync('/dev/stdin').toString().split('\n');
+// 4. 첫 번째 줄에 자연수 n을 입력받고그 다음줄에 공백으로 구분된 n개의 값들을 입력받을 때
+// const [n, ...arr] = require('fs').readFileSync('example.txt').toString().trim().split(/\s/);
 
-//.map(Number)해주면 parseInt안해도 돼!!!!!!!
-// let input = require('fs').readFileSync('example.txt').toString().split(' ').map(Number);
-// let input = require('fs').readFileSync('example.txt').toString().split('\n').map(Number);
-// const [n,...arr] = require('fs').readFileSync('example.txt').toString().trim().split('\n');
+// 5. 첫 번째 줄에 자연수 n을 입력받고, 그 다음줄부터 n개의 줄에 걸쳐 한 줄에 하나의 값을 입력받을 때
+// const [n, ...arr] = require("fs").readFileSync("example.txt").toString().trim().split("\n");
 
+// 6. 하나의 값 또는 공백으로 구분된 여러 값들을 여러 줄에 걸쳐 뒤죽박죽 섞여서 입력받을 때
+// ex) n 입력 - 공백으로 구분된 n개의 값 입력 - m 입력 - 여러 줄에 걸쳐 m개의 값 입력
+// const input = require('fs').readFileSync('example.txt').toString().trim().split(/\s/);
+// const n = input[0];
+// const n_arr = input.slice(1, n+1);
+// const [m, ...m_arr] = input.slice(n+1);
 
-let input = require('fs').readFileSync('example.txt').toString().trim().split("\n").map((x) => x.split(' ').map(Number));
+// 2~6에서 입력받는 값들을 모두 String에서 Number로 바꾸려면 split()뒤에 .map(Number)를 추가
 
-let max = 0;
-let y = 0;
-let x = 0;
+// 코딩 스타트 ! ----------------------------------------------------------
 
-for (let i = 0; i < 9; i++){
-  for (let j = 0; j < 9; j++){
-    if (max < input[i][j]) {
-      max = input[i][j];
-      y = i;
-      x = j;
-    }
+const input = require("fs").readFileSync("example.txt").toString().trim();
+
+const bracketArr = input.split("");
+const bracketList = { "(": ")", "{": "}", "[": "]" };
+
+// reduce()를 사용하여 배열을 순회하면서 괄호가 짝이 맞는지 확인
+let check = bracketArr.reduce((ac, cv) => {
+  // 배열의 마지막 요소가 괄호 짝과 같다면 pop()으로 제거
+  if (cv === bracketList[ac[ac.length - 1]]) {
+    ac.pop();
+    // 아니라면 push()로 추가
+  } else {
+    ac.push(cv);
   }
-}
+  // reduce()는 배열을 순회하면서 값을 반환하는데, 이 때 반환하는 값은 다음 순회의 첫 번째 인자로 전달된다.
+  return ac;
+}, []);
 
-console.log(max);
-console.log(`${y+1} ${x+1}`);
-
-
-arr.forEach((firstNum, firstIdx) => {
-  firstNum.forEach((secondNum, secondIdx) => {
-    if (firstIdx === 0 && secondIdx === 0) {
-      max = secondNum;
-      x = firstIdx;
-      y = secondIdx;
-    }
-    
-    if (secondNum > max) {
-      max = secondNum;
-      x =  firstIdx;
-      y = secondIdx;
-    }
-  })
-})
-
-console.log(max);
-console.log(`${x+1} ${y+1}`);
+console.log(check.length === 0 ? "True" : "False");

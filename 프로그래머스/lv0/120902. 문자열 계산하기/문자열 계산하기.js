@@ -8,7 +8,6 @@ function calculate (num1, operator, num2){
 function solution(my_string) {
     let arr = my_string.split(' ');
     let answer = arr[0];
-    console.log(answer)
     for (let i = 1; i < arr.length; i+= 2){
         answer = calculate(answer, arr[i], +arr[i+1])
     }
